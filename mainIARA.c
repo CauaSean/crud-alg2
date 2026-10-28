@@ -22,16 +22,18 @@ typedef struct{
 void menuPessoa();
 void menuVelas();
 void menuVendas();
-void listarPessoas(Pessoa *p, int qntd);
-void listarVelas(Velas *p, int qntd);
+void listarPessoas(Pessoa p[], int qntd);
+void listarVelas(Velas p[], int qntd);
 void menuConsultaVendas();
 void menuRelatorios();
 
 
 int main(){
-    Pessoa *pessoas = NULL;  
-    Velas *velas = NULL;
-    int qntdPessoas = 0, qntdVelas = 0;
+    Pessoa pessoas[5];
+    Velas velas[5];
+    Vendas vendas[5];
+
+    int qntdPessoas = 5, qntdVelas = 5;
     int opcao;
     do{
         printf("========================================\n");
@@ -222,31 +224,27 @@ void menuVendas()
 
     } while(opcao != 5);
 }
-void listarPessoas(Pessoa *p, int qntd)
+void listarPessoas(Pessoa p[], int qntd)
 {
     for(int i = 0; i < qntd; i++)
     {
         printf("\nPessoa %d\n", i + 1); 
-        printf("CPF: %s\n", p->CPF);
-        printf("Tipo: %c\n", p->Tipo);
-        printf("Nome: %s\n", p->Nome);
-        printf("Email: %s\n", p->Email);
-        printf("Telefone: %s\n", p->Tel);
-
-        p++;
+        printf("CPF: %s\n", p[i].CPF);
+        printf("Tipo: %c\n", p[i].Tipo);
+        printf("Nome: %s\n", p[i].Nome);
+        printf("Email: %s\n", p[i].Email);
+        printf("Telefone: %s\n", p[i].Tel);
     }
 }
-void listarVelas(Velas *p, int qntd)
+void listarVelas(Velas p[], int qntd)
 {
     for(int i = 0; i < qntd; i++)
     {
         printf("\nVela %d\n", i + 1);
-        printf("Tipo de Cera: %c\n", p->TipoC);
-        printf("Nome: %s\n", p->NomeV);
-        printf("ID da Vela: %d\n", p->IDVela);
-        printf("Preco: %.2f\n", p->Preco);
-
-        p++;
+        printf("Tipo de Cera: %c\n", p[i].TipoC);
+        printf("Nome: %s\n", p[i].NomeV);
+        printf("ID da Vela: %d\n", p[i].IDVela);
+        printf("Preco: %.2f\n", p[i].Preco);
     }
 }
 void menuConsultaVendas()
