@@ -1,0 +1,350 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+typedef struct{
+    char CPF[15], Tipo, Nome[50], Email[50], Tel[15];
+}Pessoa;
+
+typedef struct{
+    char TipoC, NomeV[50];
+    int IDVela;
+    float Preco;
+}Velas;
+
+typedef struct{
+    int IDVenda, IDVela, QntdVendida;
+    float ValorT;
+    char CPFC[15], Data[11];
+}Vendas;
+
+void menuPessoa(Pessoa *pessoas, int *qntdPessoas, Vendas *vendas, int qntdVendas);
+void menuVelas(Velas *velas, int *qntdVelas, Vendas *vendas, int qntdVendas);
+void menuVendas(Vendas *vendas, int *qntdVendas, Pessoa *pessoas, int qntdPessoas, Velas *velas, int qntdVelas);
+void listarPessoas(Pessoa p[], int qntd);
+void listarVelas(Velas p[], int qntd);
+void menuConsultaVendas(Vendas *vendas, int qntdVendas);
+void menuRelatorios(Vendas *vendas, int qntdVendas, Pessoa *pessoas, int qntdPessoas, Velas *velas, int qntdVelas);
+
+
+void cadastrarPessoa();
+void alterarPessoa();
+void consultarPessoa();
+void removerPessoa(Pessoa *pessoas, int *qntdPessoas, Vendas *vendas, int qntdVendas);
+
+void cadastrarVela();
+void alterarVela();
+void consultarVela();
+void removerVela(Velas *velas, int *qntdVelas, Vendas *vendas, int qntdVendas);
+
+int main(){
+    Pessoa pessoas[5];
+    Velas velas[5];
+    Vendas vendas[5];
+
+    int qntdPessoas = 0, qntdVelas = 0, qntdVendas = 0;
+    int opcao;
+    do{
+        printf("========================================\n");
+        printf("      SISTEMA DE VENDAS DE VELAS\n");
+        printf("========================================\n");
+        printf("1 - Gerenciar Pessoas\n");
+        printf("2 - Gerenciar Velas\n");
+        printf("3 - Gerenciar Vendas\n");
+        printf("4 - Listar Pessoas\n");
+        printf("5 - Listar Velas\n");
+        printf("6 - Consultar Vendas\n");
+        printf("7 - Relatorios\n");
+        printf("8 - Sair\n");
+        printf("Escolha uma opcao: \n");
+        scanf("%d", &opcao);
+
+        switch (opcao){
+        case 1:
+            menuPessoa(pessoas, &qntdPessoas, vendas, qntdVendas);
+            break;
+        case 2:
+            menuVelas(velas, &qntdVelas, vendas, qntdVendas);
+            break;
+        case 3:
+            menuVendas(vendas, &qntdVendas, pessoas, qntdPessoas, velas, qntdVelas);
+            break;
+        case 4:
+            listarPessoas(pessoas, qntdPessoas);
+            break;
+        case 5:
+            listarVelas(velas, qntdVelas);
+            break;
+        case 6:
+            menuConsultaVendas(vendas, qntdVendas);
+            break;
+        case 7:
+            menuRelatorios(vendas, qntdVendas, pessoas, qntdPessoas, velas, qntdVelas);
+            break;
+        case 8:
+            printf("Saindo do programa...\n");
+            break;
+        default:
+            printf("Opcao invalida!\n");
+            break;
+        }
+    }while(opcao != 8);
+
+    return 0;
+}
+
+void menuPessoa(Pessoa *pessoas, int *qntdPessoas, Vendas *vendas, int qntdVendas)
+{
+    int opcao;
+
+    do
+    {
+        printf("\n========================================\n");
+        printf("          GERENCIAR PESSOAS\n");
+        printf("========================================\n");
+        printf("1 - Cadastrar pessoa\n");
+        printf("2 - Alterar pessoa\n");
+        printf("3 - Consultar pessoa\n");
+        printf("4 - Remover pessoa\n");
+        printf("5 - Voltar\n");
+        printf("Escolha uma opcao: ");
+        scanf("%d", &opcao);
+
+        switch(opcao)
+        {
+            case 1:
+                cadastrarPessoa();
+                break;
+
+            case 2:
+                alterarPessoa();
+                break;
+
+            case 3:
+                consultarPessoa();
+                break;
+
+            case 4:
+                removerPessoa(pessoas, qntdPessoas, vendas, qntdVendas);
+                break;
+
+            case 5:
+                printf("\nVoltando...\n");
+                break;
+
+            default:
+                printf("\nOpcao invalida!\n");
+                break;
+        }
+
+    } while(opcao != 5);
+}
+
+void menuVelas(Velas *velas, int *qntdVelas, Vendas *vendas, int qntdVendas)
+{
+    int opcao;
+
+    do
+    {
+        printf("\n========================================\n");
+        printf("          GERENCIAR VELAS\n");
+        printf("========================================\n");
+        printf("1 - Cadastrar vela\n");
+        printf("2 - Alterar vela\n");
+        printf("3 - Consultar vela\n");
+        printf("4 - Remover vela\n");
+        printf("5 - Voltar\n");
+        printf("Escolha uma opcao: ");
+        scanf("%d", &opcao);
+
+        switch(opcao)
+        {
+            case 1:
+               cadastrarVela();
+                break;
+
+            case 2:
+               alterarVela();
+                break;
+
+            case 3:
+                consultarVela();
+                 break;
+
+            case 4:
+                removerVela(velas, qntdVelas, vendas, qntdVendas);
+            break;
+
+            case 5:
+                printf("\nVoltando...\n");
+                break;
+
+            default:
+                printf("\nOpcao invalida!\n");
+                break;
+        }
+
+    } while(opcao != 5);
+}
+void menuVendas(Vendas *vendas, int *qntdVendas, Pessoa *pessoas, int qntdPessoas, Velas *velas, int qntdVelas)
+{
+    int opcao;
+
+    do
+    {
+        printf("\n========================================\n");
+        printf("          GERENCIAR VENDAS\n");
+        printf("========================================\n");
+        printf("1 - Cadastrar venda\n");
+        printf("2 - Alterar venda\n");
+        printf("3 - Consultar venda\n");
+        printf("4 - Remover venda\n");
+        printf("5 - Voltar\n");
+        printf("Escolha uma opcao: ");
+        scanf("%d", &opcao);
+
+        switch(opcao)
+        {
+            case 1:
+                // funcao para cadastrar venda
+                break;
+
+            case 2:
+                // funcao para alterar venda
+                break;
+
+            case 3:
+                // funcao para consultar venda
+                break;
+
+            case 4:
+                // funcao para remover venda
+                break;
+
+            case 5:
+                printf("\nVoltando...\n");
+                break;
+
+            default:
+                printf("\nOpcao invalida!\n");
+                break;
+        }
+
+    } while(opcao != 5);
+}
+void listarPessoas(Pessoa p[], int qntd)
+{
+    if(qntd == 0){
+        printf("Nenhuma pessoa cadastrada\n");
+    }
+    else{
+        for(int i = 0; i < qntd; i++)
+        {
+            printf("\nPessoa %d\n", i + 1); 
+            printf("CPF: %s\n", p[i].CPF);
+            printf("Tipo: %c\n", p[i].Tipo);
+            printf("Nome: %s\n", p[i].Nome);
+            printf("Email: %s\n", p[i].Email);
+            printf("Telefone: %s\n", p[i].Tel);
+        }
+    }
+}
+void listarVelas(Velas p[], int qntd)
+{
+    if(qntd == 0){
+        printf("Nenhuma vela cadastrada\n");
+    }
+    else{
+        for(int i = 0; i < qntd; i++)
+        {
+            printf("\nVela %d\n", i + 1);
+            printf("Tipo de Cera: %c\n", p[i].TipoC);
+            printf("Nome: %s\n", p[i].NomeV);
+            printf("ID da Vela: %d\n", p[i].IDVela);
+            printf("Preco: %.2f\n", p[i].Preco);
+        }
+    }
+}
+void menuConsultaVendas(Vendas *vendas, int qntdVendas)
+{
+    int opcao;
+
+    do
+    {
+        printf("\n========================================\n");
+        printf("          CONSULTA DE VENDAS\n");
+        printf("========================================\n");
+        printf("1 - Consultar por Data da Compra\n");
+        printf("2 - Consultar por CPF do Cliente\n");
+        printf("3 - Consultar por ID da Vela\n");
+        printf("4 - Voltar\n");
+        printf("Escolha uma opcao: ");
+        scanf("%d", &opcao);
+
+        switch(opcao)
+        {
+            case 1:
+                // funcao de consulta por data
+                break;
+
+            case 2:
+                // funcao de consulta por CPF
+                break;
+
+            case 3:
+                // funcao de consulta por ID da vela
+                break;
+
+            case 4:
+                printf("\nVoltando...\n");
+                break;
+
+            default:
+                printf("\nOpcao invalida!\n");
+                break;
+        }
+
+    } while(opcao != 4);
+}
+void menuRelatorios(Vendas *vendas, int qntdVendas, Pessoa *pessoas, int qntdPessoas, Velas *velas, int qntdVelas)
+{
+    int opcao;
+
+    do
+    {
+        printf("\n========================================\n");
+        printf("              RELATORIOS\n");
+        printf("========================================\n");
+        printf("1 - Vendas a partir de uma data\n");
+        printf("2 - Compras por cliente\n");
+        printf("3 - Vendas por tipo de cera\n");
+        printf("4 - Voltar\n");
+        printf("Escolha uma opcao: ");
+        scanf("%d", &opcao);
+
+        switch(opcao)
+        {
+            case 1:
+                // funcao de relatorio por data
+                break;
+
+            case 2:
+                // funcao de relatorio por cliente
+                break;
+
+            case 3:
+                // funcao de relatorio por tipo de cera
+                break;
+
+            case 4:
+                printf("\nVoltando...\n");
+                break;
+
+            default:
+                printf("\nOpcao invalida!\n");
+                break;
+        }
+
+    } while(opcao != 4);
+}
