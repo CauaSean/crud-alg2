@@ -14,18 +14,18 @@ typedef struct{
 }Velas;
 
 typedef struct{
-    int IDVenda, QntdVendida;
+    int IDVenda, IDVela, QntdVendida;
     float ValorT;
-    char CPFC[15], Data[9];
+    char CPFC[15], Data[11];
 }Vendas;
 
-void menuPessoa();
-void menuVelas();
-void menuVendas();
+void menuPessoa(Pessoa *pessoas, int *qntdPessoas);
+void menuVelas(Velas *velas, int *qntdVelas);
+void menuVendas(Vendas *vendas, int *qntdVendas, Pessoa *pessoas, int qntdPessoas, Velas *velas, int qntdVelas);
 void listarPessoas(Pessoa p[], int qntd);
 void listarVelas(Velas p[], int qntd);
-void menuConsultaVendas();
-void menuRelatorios();
+void menuConsultaVendas(Vendas *vendas, int qntdVendas);
+void menuRelatorios(Vendas *vendas, int qntdVendas, Pessoa *pessoas, int qntdPessoas, Velas *velas, int qntdVelas);
 
 
 int main(){
@@ -33,7 +33,7 @@ int main(){
     Velas velas[5];
     Vendas vendas[5];
 
-    int qntdPessoas = 5, qntdVelas = 5;
+    int qntdPessoas = 0, qntdVelas = 0, qntdVendas = 0;
     int opcao;
     do{
         printf("========================================\n");
@@ -52,26 +52,25 @@ int main(){
 
         switch (opcao){
         case 1:
-            menuPessoa();
+            menuPessoa(pessoas, &qntdPessoas);
             break;
         case 2:
-            menuVelas();
+            menuVelas(velas, &qntdVelas);
             break;
         case 3:
-            menuVendas();
+            menuVendas(vendas, &qntdVendas, pessoas, qntdPessoas, velas, qntdVelas);
             break;
         case 4:
             listarPessoas(pessoas, qntdPessoas);
             break;
-
         case 5:
             listarVelas(velas, qntdVelas);
             break;
         case 6:
-            menuConsultaVendas();
+            menuConsultaVendas(vendas, qntdVendas);
             break;
         case 7:
-            menuRelatorios();
+            menuRelatorios(vendas, qntdVendas, pessoas, qntdPessoas, velas, qntdVelas);
             break;
         case 8:
             printf("Saindo do programa...\n");
@@ -85,7 +84,7 @@ int main(){
     return 0;
 }
 
-void menuPessoa()
+void menuPessoa(Pessoa *pessoas, int *qntdPessoas)
 {
     int opcao;
 
@@ -132,7 +131,7 @@ void menuPessoa()
     } while(opcao != 5);
 }
 
-void menuVelas()
+void menuVelas(Velas *velas, int *qntdVelas)
 {
     int opcao;
 
@@ -178,7 +177,7 @@ void menuVelas()
 
     } while(opcao != 5);
 }
-void menuVendas()
+void menuVendas(Vendas *vendas, int *qntdVendas, Pessoa *pessoas, int qntdPessoas, Velas *velas, int qntdVelas)
 {
     int opcao;
 
@@ -226,28 +225,38 @@ void menuVendas()
 }
 void listarPessoas(Pessoa p[], int qntd)
 {
-    for(int i = 0; i < qntd; i++)
-    {
-        printf("\nPessoa %d\n", i + 1); 
-        printf("CPF: %s\n", p[i].CPF);
-        printf("Tipo: %c\n", p[i].Tipo);
-        printf("Nome: %s\n", p[i].Nome);
-        printf("Email: %s\n", p[i].Email);
-        printf("Telefone: %s\n", p[i].Tel);
+    if(qntd == 0){
+        printf("Nenhuma pessoa cadastrada\n");
+    }
+    else{
+        for(int i = 0; i < qntd; i++)
+        {
+            printf("\nPessoa %d\n", i + 1); 
+            printf("CPF: %s\n", p[i].CPF);
+            printf("Tipo: %c\n", p[i].Tipo);
+            printf("Nome: %s\n", p[i].Nome);
+            printf("Email: %s\n", p[i].Email);
+            printf("Telefone: %s\n", p[i].Tel);
+        }
     }
 }
 void listarVelas(Velas p[], int qntd)
 {
-    for(int i = 0; i < qntd; i++)
-    {
-        printf("\nVela %d\n", i + 1);
-        printf("Tipo de Cera: %c\n", p[i].TipoC);
-        printf("Nome: %s\n", p[i].NomeV);
-        printf("ID da Vela: %d\n", p[i].IDVela);
-        printf("Preco: %.2f\n", p[i].Preco);
+    if(qntd == 0){
+        printf("Nenhuma vela cadastrada\n");
+    }
+    else{
+        for(int i = 0; i < qntd; i++)
+        {
+            printf("\nVela %d\n", i + 1);
+            printf("Tipo de Cera: %c\n", p[i].TipoC);
+            printf("Nome: %s\n", p[i].NomeV);
+            printf("ID da Vela: %d\n", p[i].IDVela);
+            printf("Preco: %.2f\n", p[i].Preco);
+        }
     }
 }
-void menuConsultaVendas()
+void menuConsultaVendas(Vendas *vendas, int qntdVendas)
 {
     int opcao;
 
@@ -288,7 +297,7 @@ void menuConsultaVendas()
 
     } while(opcao != 4);
 }
-void menuRelatorios()
+void menuRelatorios(Vendas *vendas, int qntdVendas, Pessoa *pessoas, int qntdPessoas, Velas *velas, int qntdVelas)
 {
     int opcao;
 
