@@ -19,14 +19,24 @@ typedef struct{
     char CPFC[15], Data[11];
 }Vendas;
 
-void menuPessoa(Pessoa *pessoas, int *qntdPessoas);
-void menuVelas(Velas *velas, int *qntdVelas);
+void menuPessoa(Pessoa *pessoas, int *qntdPessoas, Vendas *vendas, int qntdVendas);
+void menuVelas(Velas *velas, int *qntdVelas, Vendas *vendas, int qntdVendas);
 void menuVendas(Vendas *vendas, int *qntdVendas, Pessoa *pessoas, int qntdPessoas, Velas *velas, int qntdVelas);
 void listarPessoas(Pessoa p[], int qntd);
 void listarVelas(Velas p[], int qntd);
 void menuConsultaVendas(Vendas *vendas, int qntdVendas);
 void menuRelatorios(Vendas *vendas, int qntdVendas, Pessoa *pessoas, int qntdPessoas, Velas *velas, int qntdVelas);
 
+
+void cadastrarPessoa();
+void alterarPessoa();
+void consultarPessoa();
+void removerPessoa(Pessoa *pessoas, int *qntdPessoas, Vendas *vendas, int qntdVendas);
+
+void cadastrarVela();
+void alterarVela();
+void consultarVela();
+void removerVela(Velas *velas, int *qntdVelas, Vendas *vendas, int qntdVendas);
 
 int main(){
     Pessoa pessoas[5];
@@ -52,10 +62,10 @@ int main(){
 
         switch (opcao){
         case 1:
-            menuPessoa(pessoas, &qntdPessoas);
+            menuPessoa(pessoas, &qntdPessoas, vendas, qntdVendas);
             break;
         case 2:
-            menuVelas(velas, &qntdVelas);
+            menuVelas(velas, &qntdVelas, vendas, qntdVendas);
             break;
         case 3:
             menuVendas(vendas, &qntdVendas, pessoas, qntdPessoas, velas, qntdVelas);
@@ -84,7 +94,7 @@ int main(){
     return 0;
 }
 
-void menuPessoa(Pessoa *pessoas, int *qntdPessoas)
+void menuPessoa(Pessoa *pessoas, int *qntdPessoas, Vendas *vendas, int qntdVendas)
 {
     int opcao;
 
@@ -104,19 +114,19 @@ void menuPessoa(Pessoa *pessoas, int *qntdPessoas)
         switch(opcao)
         {
             case 1:
-                // funcao para cadastrar pessoa
+                cadastrarPessoa();
                 break;
 
             case 2:
-                // funcao para alterar pessoa
+                alterarPessoa();
                 break;
 
             case 3:
-                // funcao para consultar pessoa
+                consultarPessoa();
                 break;
 
             case 4:
-                // funcao para remover pessoa
+                removerPessoa(pessoas, qntdPessoas, vendas, qntdVendas);
                 break;
 
             case 5:
@@ -131,7 +141,7 @@ void menuPessoa(Pessoa *pessoas, int *qntdPessoas)
     } while(opcao != 5);
 }
 
-void menuVelas(Velas *velas, int *qntdVelas)
+void menuVelas(Velas *velas, int *qntdVelas, Vendas *vendas, int qntdVendas)
 {
     int opcao;
 
@@ -151,20 +161,20 @@ void menuVelas(Velas *velas, int *qntdVelas)
         switch(opcao)
         {
             case 1:
-                // funcao para cadastrar vela
+               cadastrarVela();
                 break;
 
             case 2:
-                // funcao para alterar vela
+               alterarVela();
                 break;
 
             case 3:
-                // funcao para consultar vela
-                break;
+                consultarVela();
+                 break;
 
             case 4:
-                // funcao para remover vela
-                break;
+                removerVela(velas, qntdVelas, vendas, qntdVendas);
+            break;
 
             case 5:
                 printf("\nVoltando...\n");
