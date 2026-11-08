@@ -114,19 +114,19 @@ void menuPessoa(Pessoa *pessoas, int *qntdPessoas, Vendas *vendas, int qntdVenda
         switch(opcao)
         {
             case 1:
-                cadastrarPessoa();
+                cadastrarPessoa(pessoa, qntdPessoas);
                 break;
 
             case 2:
-                alterarPessoa();
+                alterarPessoa(pessoas, qntdPessoas);
                 break;
 
             case 3:
-                consultarPessoa();
+                consultarPessoa(pessoas, qntdPessoas);
                 break;
 
             case 4:
-                removerPessoa(pessoas, qntdPessoas, vendas, qntdVendas);
+                removerPessoa(pessoas, qntdPessoas);
                 break;
 
             case 5:
@@ -161,19 +161,19 @@ void menuVelas(Velas *velas, int *qntdVelas, Vendas *vendas, int qntdVendas)
         switch(opcao)
         {
             case 1:
-               cadastrarVela();
+               cadastrarVela(velas, qntdVelas);
                 break;
 
             case 2:
-               alterarVela();
+               alterarVela(velas, qntdVelas);
                 break;
 
             case 3:
-                consultarVela();
+                consultarVela(velas, qntdVelas);
                  break;
 
             case 4:
-                removerVela(velas, qntdVelas, vendas, qntdVendas);
+                removerVela(velas, qntdVelas);
             break;
 
             case 5:
@@ -207,19 +207,19 @@ void menuVendas(Vendas *vendas, int *qntdVendas, Pessoa *pessoas, int qntdPessoa
         switch(opcao)
         {
             case 1:
-                // funcao para cadastrar venda
+                cadastrarVenda (Vendas **vd, in *qntdVd, Pessoa *p, int qntdP, Velas *v, int qntdV);
                 break;
 
             case 2:
-                // funcao para alterar venda
+                alterarVenda (Vendas *vd, int qntdVd, Velas *v, int qntdV);
                 break;
 
             case 3:
-                // funcao para consultar venda
+                consultarVenda(Vendas *vd, int qntd);
                 break;
 
             case 4:
-                // funcao para remover venda
+                removerVenda(Vendas **vd, int *qntd);
                 break;
 
             case 5:
@@ -285,15 +285,15 @@ void menuConsultaVendas(Vendas *vendas, int qntdVendas)
         switch(opcao)
         {
             case 1:
-                // funcao de consulta por data
+                consultarVendasPorData(vendas, qntdVendas);
                 break;
 
             case 2:
-                // funcao de consulta por CPF
+                consultarVendasPorCPF(vendas, qntdVendas);
                 break;
 
             case 3:
-                // funcao de consulta por ID da vela
+                consultarVendasPorIDVela(vendas, qntdVendas);
                 break;
 
             case 4:
@@ -326,15 +326,15 @@ void menuRelatorios(Vendas *vendas, int qntdVendas, Pessoa *pessoas, int qntdPes
         switch(opcao)
         {
             case 1:
-                // funcao de relatorio por data
+                relatorioVendasAPartirDeData(vendas, qntdVendas);
                 break;
 
             case 2:
-                // funcao de relatorio por cliente
+                relatorioComprasPorCliente(vendas, qntdVendas, pessoas, qntdPessoas);
                 break;
 
             case 3:
-                // funcao de relatorio por tipo de cera
+                relatorioVendasPorTipoCera(vendas, qntdVendas, velas, qntdVelas);
                 break;
 
             case 4:
