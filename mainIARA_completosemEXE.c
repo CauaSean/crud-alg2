@@ -44,7 +44,6 @@ int proximoIDVenda(Vendas *vendas, int qntdVendas);
 int dataParaInt(char data[]);
 void mostrarVenda(Vendas v);
 
-
 void cadastrarPessoa(Pessoa *pessoas, int *qntdPessoas);
 void alterarPessoa(Pessoa *pessoas, int qntdPessoas);
 void consultarPessoa(Pessoa *pessoas, int qntdPessoas);
@@ -397,7 +396,7 @@ void cadastrarPessoa(Pessoa *pessoas, int *qntdPessoas)
     printf("Digite o email: ");
     scanf(" %49s", pessoas[pos].Email);
 
-    printf("Digite o telefone sem carateres especias e espaços (ex: 00123456789): ");
+    printf("Digite o telefone sem carateres especias e espacos (ex: 00123456789): ");
     while(1){
         scanf(" %14s", pessoas[pos].Tel);
         if(strlen(pessoas[pos].Tel)<11){
@@ -417,7 +416,7 @@ void alterarPessoa(Pessoa *pessoas, int qntdPessoas)
         return;
     }
 
-    printf("Digite o CPF da pessoa: ");
+    printf("Digite o CPF da pessoa sem tracos '-' e pontos '.' (ex: 12345678900): ");
     while(1){
         scanf(" %14s", cpf);
         if(strlen(cpf)!=11){
@@ -429,17 +428,27 @@ void alterarPessoa(Pessoa *pessoas, int qntdPessoas)
         if(strcmp(pessoas[i].CPF, cpf) == 0){
 
             printf("Digite o novo tipo (C - Cliente, V - Vendedor): ");
-            scanf(" %c", &pessoas[i].Tipo);
-
+            while(1){
+                scanf(" %c", &pessoas[i].Tipo);
+                if(pessoas[i].Tipo=='C' || pessoas[i].Tipo=='V'){
+                    break;
+                }else{
+                    printf("Tipo de pessoa invalido!\nDigite novamente: ");
+                }
+            }
             printf("Digite o novo nome: ");
             scanf(" %49[^\n]", pessoas[i].Nome);
 
             printf("Digite o novo email: ");
             scanf(" %49s", pessoas[i].Email);
 
-            printf("Digite o novo telefone: ");
-            scanf(" %14s", pessoas[i].Tel);
-
+            printf("Digite o novo telefone sem caracteres especiais e espacos (ex: 00123456789): ");
+            while(1){
+                scanf(" %14s", pessoas[i].Tel);
+                if(strlen(pessoas[i].Tel)!=11){
+                    printf("Telefone invalido!\nDigite novamente: ");
+                }else break;
+            }
             printf("Pessoa alterada com sucesso!\n");
             return;
         }
@@ -455,7 +464,7 @@ void consultarPessoa(Pessoa *pessoas, int qntdPessoas)
         printf("Nenhuma pessoa cadastrada!\n");
         return;
     }
-    printf("Digite o CPF da pessoa: ");
+    printf("Digite o CPF da pessoa sem tracos '-' e pontos '.' (ex: 12345678900): ");
     while(1){
         scanf(" %14s", cpf);
         if(strlen(cpf)!=11){
@@ -479,15 +488,19 @@ void consultarPessoa(Pessoa *pessoas, int qntdPessoas)
 
 void removerPessoa(Pessoa *pessoas, int *qntdPessoas, Vendas *vendas, int qntdVendas)
 {
-    char cpf[15], pos = -1; //indica que ainda não encontramos a pessoa.
+    char cpf[15], pos = -1;
 
     if(*qntdPessoas == 0){
         printf("Nenhuma pessoa cadastrada!\n");
         return;
     }
-    printf("Digite o CPF da pessoa a remover: ");
-    scanf(" %14s", cpf);
-
+    printf("Digite o CPF da pessoa sem tracos '-' e pontos '.' (ex: 12345678900): ");
+    while(1){
+        scanf(" %14s", cpf);
+        if(strlen(cpf)!=11){
+            printf("CPF invalido!\nDigite novamente: ");
+        }else break;
+    }
     for(int i = 0; i < *qntdPessoas; i++){
         if(strcmp(pessoas[i].CPF, cpf) == 0){
             pos = i;
@@ -572,7 +585,14 @@ void alterarVela(Velas *velas, int qntdVelas)
         return;
     }
     printf("Digite o ID da vela: ");
-    scanf("%d", &id);
+    while(1){
+        scanf("%d", &id);
+        if(id>=0){
+            break;
+        }else{
+            printf("ID invalido!\nDigite novamente: ");
+        }
+    }
     for(int i = 0; i < qntdVelas; i++){
         if(velas[i].IDVela == id){
 
@@ -615,7 +635,14 @@ void consultarVela(Velas *velas, int qntdVelas)
         return;
     }
     printf("Digite o ID da vela: ");
-    scanf("%d", &id);
+    while(1){
+        scanf("%d", &id);
+        if(id>=0){
+            break;
+        }else{
+            printf("ID invalido!\nDigite novamente: ");
+        }
+    }
     for(int i = 0; i < qntdVelas; i++){
         if(velas[i].IDVela == id){
 
@@ -639,8 +666,14 @@ void removerVela(Velas *velas, int *qntdVelas, Vendas *vendas, int qntdVendas)
         return;
     }
     printf("Digite o ID da vela a remover: ");
-    scanf("%d", &id);
-
+    while(1){
+        scanf("%d", &id);
+        if(id>=0){
+            break;
+        }else{
+            printf("ID invalido!\nDigite novamente: ");
+        }
+    }
     for(int i = 0; i < *qntdVelas; i++){
         if(velas[i].IDVela == id){
             pos = i;
@@ -664,9 +697,6 @@ void removerVela(Velas *velas, int *qntdVelas, Vendas *vendas, int qntdVendas)
     printf("Vela removida com sucesso!\n");
 }
 
-
-// Funcao para gerar o proximo ID de venda
-
 int proximoIDVenda(Vendas *vendas, int qntdVendas)
 {
     int maior = 0;
@@ -680,9 +710,6 @@ int proximoIDVenda(Vendas *vendas, int qntdVendas)
     return maior + 1;
 }
 
-
-// Funcao para transformar a data em um numero para comparacao
-
 int dataParaInt(char data[])
 {
     int d = 0, m = 0, a = 0;
@@ -691,9 +718,6 @@ int dataParaInt(char data[])
 
     return a * 10000 + m * 100 + d;
 }
-
-
-// Funcao para mostrar os dados de uma venda
 
 void mostrarVenda(Vendas v)
 {
@@ -705,11 +729,7 @@ void mostrarVenda(Vendas v)
     printf("Valor Total: R$ %.2f\n", v.ValorT);
 }
 
-
-// Cadastro de vendas
-
-void cadastrarVenda(Vendas *vendas, int *qntdVendas, Pessoa *pessoas,
-                    int qntdPessoas, Velas *velas, int qntdVelas)
+void cadastrarVenda(Vendas *vendas, int *qntdVendas, Pessoa *pessoas, int qntdPessoas, Velas *velas, int qntdVelas)
 {
     if(*qntdVendas >= 5){
         printf("Limite de vendas atingido!\n");
@@ -719,9 +739,13 @@ void cadastrarVenda(Vendas *vendas, int *qntdVendas, Pessoa *pessoas,
     Vendas v;
     int posVela = -1;
 
-    printf("Digite o CPF do cliente: ");
-    scanf(" %14s", v.CPFC);
-
+    printf("Digite o CPF do cliente sem tracos '-' e pontos '.' (ex: 12345678900): ");
+    while(1){
+        scanf(" %14s", v.CPFC);
+        if(strlen(v.CPFC)!=11){
+            printf("CPF invalido\nDigite novamente: ");
+        }else break;
+    }
     for(int i = 0; i < qntdPessoas; i++){
         if(strcmp(pessoas[i].CPF, v.CPFC) == 0){
             posVela = i;
@@ -735,8 +759,14 @@ void cadastrarVenda(Vendas *vendas, int *qntdVendas, Pessoa *pessoas,
     }
 
     printf("Digite o ID da vela: ");
-    scanf("%d", &v.IDVela);
-
+    while(1){
+        scanf("%d", &v.IDVela);
+        if(v.IDVela>=0){
+            break;
+        }else{
+            printf("ID invalido!\nDigite novamente: ");
+        }
+    }
     posVela = -1;
 
     for(int i = 0; i < qntdVelas; i++){
@@ -787,8 +817,14 @@ void alterarVenda(Vendas *vendas, int qntdVendas, Velas *velas, int qntdVelas)
     }
 
     printf("Digite o ID da venda: ");
-    scanf("%d", &id);
-
+    while(1){
+        scanf("%d", &id);
+        if(id>=0){
+            break;
+        }else{
+            printf("ID invalido\nDigite novamente: ");
+        }
+    }
     for(int i = 0; i < qntdVendas; i++){
         if(vendas[i].IDVenda == id){
             posVenda = i;
@@ -844,8 +880,14 @@ void consultarVenda(Vendas *vendas, int qntdVendas)
     }
 
     printf("Digite o ID da venda: ");
-    scanf("%d", &id);
-
+    while(1){
+        scanf("%d", &id);
+        if(id>=0){
+            break;
+        }else{
+            printf("ID invalido\nDigite novamente: ");
+        }
+    }
     for(int i = 0; i < qntdVendas; i++){
         if(vendas[i].IDVenda == id){
             mostrarVenda(vendas[i]);
@@ -866,8 +908,14 @@ void removerVenda(Vendas *vendas, int *qntdVendas)
     }
 
     printf("Digite o ID da venda a remover: ");
-    scanf("%d", &id);
-
+    while(1){
+        scanf("%d", &id);
+        if(id>=0){
+            break;
+        }else{
+            printf("ID invalido\nDigite novamente: ");
+        }
+    }
     for(int i = 0; i < *qntdVendas; i++){
         if(vendas[i].IDVenda == id){
             pos = i;
@@ -928,7 +976,7 @@ void consultarVendasPorCPF(Vendas *vendas, int qntdVendas)
         return;
     }
 
-    printf("Digite o CPF do cliente: ");
+    printf("Digite o CPF do cliente sem tracos '-' e pontos '.' (ex: 12345678900): ");
     while(1){
         scanf(" %14s", cpf);
         if(strlen(cpf)!=11){
@@ -957,8 +1005,14 @@ void consultarVendasPorVela(Vendas *vendas, int qntdVendas)
     }
 
     printf("Digite o ID da vela: ");
-    scanf("%d", &id);
-
+    while(1){
+        scanf("%d", &id);
+        if(id>=0){
+            break;
+        }else{
+            printf("ID invalido\nDigite novamente: ");
+        }
+    }
     for(int i = 0; i < qntdVendas; i++){
         if(vendas[i].IDVela == id){
             mostrarVenda(vendas[i]);
@@ -1016,7 +1070,7 @@ void relatorioPorCliente(Vendas *vendas, int qntdVendas, Pessoa *pessoas, int qn
         return;
     }
 
-    printf("Digite o CPF do cliente: ");
+    printf("Digite o CPF do cliente sem tracos '-' e pontos '.' (ex: 12345678900): ");
     while(1){
         scanf(" %14s", cpf);
         if(strlen(cpf)!=11){
